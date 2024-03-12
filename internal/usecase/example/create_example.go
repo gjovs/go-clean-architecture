@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/gjovs/clean/internal/entity"
+	"github.com/gjovs/clean/pkg/events"
 )
 
 type ExampleInputDTO struct {
@@ -21,6 +22,8 @@ type ExampleOutputDTO struct {
 
 type CreateExampleUseCase struct {
 	ExampleRepository entity.ExampleRepositoryInterface
+	EventDispatcher   events.EventDispatcherInterface
+	ExampleCreated    events.EventInterface
 }
 
 func NewCreateExampleUseCase(exampleRepository entity.ExampleRepositoryInterface) *CreateExampleUseCase {
@@ -46,6 +49,9 @@ func (usecase *CreateExampleUseCase) Execute(input ExampleInputDTO) (*ExampleOut
 		Description: example.Description,
 		CreatedAt:   example.CreatedAt,
 	}
+
+	usecase.ExampleCreated.SetPayload(dto)
+	usecase.EventDispatcher.Dispatch(usecase.ExampleCreated)
 
 	return dto, nil
 }
