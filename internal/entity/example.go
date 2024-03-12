@@ -20,7 +20,7 @@ func NewExampleModel(id, name, description string) (*ExampleModel, error) {
 	return example, nil
 }
 
-func (this *ExampleModel) IsValid() error {
+func (model *ExampleModel) IsValid() error {
 	// TODO: add validation here
 	return nil
 }
