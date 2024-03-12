@@ -1,5 +1,5 @@
 package entity
 
 type ExampleRepositoryInterface interface {
-	Save(example *ExampleModel) error
+	Save(example *ExampleModel) (*ExampleModel, error)
 }

@@ -30,13 +30,13 @@ func NewCreateExampleUseCase(exampleRepository entity.ExampleRepositoryInterface
 }
 
 func (usecase *CreateExampleUseCase) Execute(input ExampleInputDTO) (*ExampleOutputDTO, error) {
-	example := entity.ExampleModel{
+	example, err := usecase.ExampleRepository.Save(&entity.ExampleModel{
 		ID:          input.ID,
 		Name:        input.Name,
 		Description: input.Description,
-	}
+	})
 
-	if err := usecase.ExampleRepository.Save(&example); err != nil {
+	if err != nil {
 		return nil, err
 	}
 
@@ -44,7 +44,7 @@ func (usecase *CreateExampleUseCase) Execute(input ExampleInputDTO) (*ExampleOut
 		ID:          example.ID,
 		Name:        example.Name,
 		Description: example.Description,
-		CreatedAt:   time.Now(),
+		CreatedAt:   example.CreatedAt,
 	}
 
 	return dto, nil
