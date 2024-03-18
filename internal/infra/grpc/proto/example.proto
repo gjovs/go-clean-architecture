@@ -1,0 +1,20 @@
+syntax = "proto3";
+package pb;
+option go_package = "internal/infra/grpc/pb";
+
+message CreateExampleRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message CreateExampleResponse {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string created_at = 4;
+}
+
+service ExampleService {
+  rpc CreateExample (CreateExampleRequest) returns (CreateExampleResponse) {};
+}
